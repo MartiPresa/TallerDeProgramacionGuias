@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.cerveceria"},{"l":"org.excepciones"},{"l":"org.modelo"},{"l":"org.negocio"},{"l":"org.vista"}];updateSearchResults();
