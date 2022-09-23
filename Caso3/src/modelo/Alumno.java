@@ -14,4 +14,31 @@ public class Alumno {
     //private ArrayList<Materia> materias = new ArrayList<Materia>();
 
 
+    public int getLegajo() {
+        return legajo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public Materia getHistoria() {
+        return historia;
+    }
+
+    public Materia getMatematica() {
+        return matematica;
+    }
+
+    public Materia getLiteratura() {
+        return literatura;
+    }
+
+    public Materia getFisica() {
+        return fisica;
+    }
 }
