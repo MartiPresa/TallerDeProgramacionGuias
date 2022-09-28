@@ -6,32 +6,53 @@ import java.util.HashMap;
 
 public class Certificado implements ICertificado {
 
-    private int legajo;  //numero entero de 4 cifras
-    private String nombre;
-    private String apellido;
+    private static int legajo;  //numero entero de 4 cifras
+    private static String nombre;
+    private static String apellido;
 
-    private HashMap<String,Materia> materias = new HashMap<>();
+    private static HashMap<String,Materia> materias = new HashMap<>();
 //    private Materia historia;
 //    private Materia matematica;
 //    private Materia literatura;
 //    private Materia fisica;
 
-    private String condicion;
+    private static String condicion;
+    private static Certificado instance = null;
 
-    public Certificado(int legajo, String nombre, String apellido, Materia historia,Materia matematica,Materia literatura, Materia fisica) {
+//    public Certificado(int legajo, String nombre, String apellido, Materia historia,Materia matematica,Materia literatura, Materia fisica) {
+//
+//        if(instance == null){
+//            this.legajo = legajo;
+//            this.nombre = nombre;
+//            this.apellido = apellido;
+//            this.materias.put(historia.getNombre(),historia);
+//            this.materias.put(matematica.getNombre(), matematica);
+//            this.materias.put(literatura.getNombre(),literatura);
+//            this.materias.put(fisica.getNombre(),fisica);
+//
+//            this.verificaCondicion();
+//        }
+//
+//    }
+    public Certificado getInstance(int legajo, String nombre, String apellido, Materia historia,Materia matematica,Materia literatura, Materia fisica){
+        if(instance == null){
+            this.legajo = legajo;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.materias.put(historia.getNombre(),historia);
+            this.materias.put(matematica.getNombre(), matematica);
+            this.materias.put(literatura.getNombre(),literatura);
+            this.materias.put(fisica.getNombre(),fisica);
 
-        this.legajo = legajo;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.materias.put(historia.getNombre(),historia);
-        this.materias.put(matematica.getNombre(), matematica);
-        this.materias.put(literatura.getNombre(),literatura);
-        this.materias.put(fisica.getNombre(),fisica);
-
-        this.verificaCondicion();
+            this.verificaCondicion();
+        }
+        return instance;
+    }
+    public Certificado getInstance(){
+        return instance;
     }
 
-    public void verificaCondicion(){
+    public static void verificaCondicion(){
     int aux = 0;
 
         if(this.materias.get("historia").getEstado() == "A cursar")
@@ -47,26 +68,46 @@ public class Certificado implements ICertificado {
         else
             this.condicion = "Irregular";
     }
-    @Override
-    public void pedirCertificado(int legajo) throws LegajoInvalidoException {
+//    @Override
+//    public static void pedirCertificado(int legajo) throws LegajoInvalidoException {
+//
+//        if(Escuela.getInstance().getAlumnos().containsKey(this.legajo) == false)
+//            throw new LegajoInvalidoException("El legajo "+this.legajo+" no se encuentra en la base de alumnos",this.legajo);
+//        else{
+//            Alumno alumno = Escuela.getInstance().getAlumnos().get(legajo);
+//            this.legajo = alumno.getLegajo();
+//            this.nombre = alumno.getNombre();
+//            this.apellido = alumno.getApellido();
+//
+//            this.materias.clear();
+//            this.materias.put(alumno.getHistoria().getNombre(),alumno.getHistoria());
+//            this.materias.put(alumno.getMatematica().getNombre(),alumno.getMatematica());
+//            this.materias.put(alumno.getLiteratura().getNombre(),alumno.getLiteratura());
+//            this.materias.put(alumno.getFisica().getNombre(),alumno.getFisica());
+//
+//            this.verificaCondicion();
+//        }
+//    }
 
-        if(Escuela.getInstance().getAlumnos().containsKey(this.legajo) == false)
-            throw new LegajoInvalidoException("El legajo "+this.legajo+" no se encuentra en la base de alumnos",this.legajo);
-        else{
-            Alumno alumno = Escuela.getInstance().getAlumnos().get(legajo);
-            this.legajo = alumno.getLegajo();
-            this.nombre = alumno.getNombre();
-            this.apellido = alumno.getApellido();
+public void pedirCertificado(int legajo) throws LegajoInvalidoException {
 
-            this.materias.clear();
-            this.materias.put(alumno.getHistoria().getNombre(),alumno.getHistoria());
-            this.materias.put(alumno.getMatematica().getNombre(),alumno.getMatematica());
-            this.materias.put(alumno.getLiteratura().getNombre(),alumno.getLiteratura());
-            this.materias.put(alumno.getFisica().getNombre(),alumno.getFisica());
+    if(Escuela.getInstance().getAlumnos().containsKey(legajo) == false)
+        throw new LegajoInvalidoException("El legajo "+legajo+" no se encuentra en la base de alumnos",legajo);
+    else{
+        Alumno alumno = Escuela.getInstance().getAlumnos().get(legajo);
+        legajo = alumno.getLegajo();
+        nombre = alumno.getNombre();
+        apellido = alumno.getApellido();
 
-            this.verificaCondicion();
-        }
+        materias.clear();
+        materias.put(alumno.getHistoria().getNombre(),alumno.getHistoria());
+        materias.put(alumno.getMatematica().getNombre(),alumno.getMatematica());
+        materias.put(alumno.getLiteratura().getNombre(),alumno.getLiteratura());
+        materias.put(alumno.getFisica().getNombre(),alumno.getFisica());
+
+        this.verificaCondicion();
     }
+}
 
     @Override
     public String traerApellidoyNombre() throws LegajoInvalidoException {
